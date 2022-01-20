@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import RenderedItem from './RenderedItem';
+import { isID, isEmail, isDate } from './helper'
 
 interface RendererComponentProps {
 
@@ -10,8 +12,8 @@ const RendererComponent: React.FunctionComponent<RendererComponentProps> = () =>
     const [loadedArray, setloadedArray] = useState<JSON[]>();
 
     const uploadFile = (e: any) => {
+        setloadedArray([]);
         e.preventDefault()
-        let obj;
         const reader = new FileReader()
         reader.onload = async (e) => {
             const text = (e?.target?.result)
@@ -31,13 +33,29 @@ const RendererComponent: React.FunctionComponent<RendererComponentProps> = () =>
     }, [loaded]);
 
     const generateInput = (value: any) => {
-        console.log(value)
+        if (typeof value === "string") {
+            if (isID(value))
+                return "id"
+            if (isEmail(value))
+                return "email"
+            if (isDate(value))
+                return "date"
+            if (value?.length > 30)
+                return "longText"
+            return "text"
+        } else if (typeof value === "number") {
+            return "number"
+        } else if (typeof value === "boolean") {
+            return "radio"
+        } else {
+            return ""
+        }
     }
 
     return (
         <>
             <div>
-                Renderer component
+                Please select JSON file to load
             </div>
             <span>
                 <input type="file"
@@ -45,45 +63,28 @@ const RendererComponent: React.FunctionComponent<RendererComponentProps> = () =>
                     onChange={(e) => uploadFile(e)} />
             </span>
             <div>Loaded: </div>
-            {loadedArray?.map((item: any) => {
+            {loadedArray?.map((item: any, id: number) => {
                 const keysList = Object.keys(item);
                 return (
-                    <table>
+                    <table key={id}>
                         <tbody>
                             <tr>
-                        {keysList?.map((obj: any) => {
-                            const inputSetup = generateInput(item[obj]);
-                            return (
-                                <>
-                                <td>
-                                    <table>
-                                        <tbody>
-                                    <tr>
-                                        <th>
-                                            {obj}
-                                        </th>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {item[obj]}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    </table>
-                                 </td>
-                                </>
-                            )
+                                {keysList?.map((obj: any, index: number) => {
+                                    const inputSetup = generateInput(item[obj]);
 
-                        })}
-                        </tr>
+                                    return <RenderedItem
+                                        index={index}
+                                        id={id} 
+                                        obj={obj}
+                                        objValue={item[obj]}
+                                        inputSetup={inputSetup}
+                                    />
+                                })}
+                            </tr>
                         </tbody>
                     </table>
                 )
-
-
             })}
-
         </>
     );
 }
