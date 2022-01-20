@@ -29,7 +29,7 @@ function RendererComponent() {
 		setIsLoading(false);
 	}, [loaded]);
 
-	const generateInput = (value: any) => {
+	const generateInput = (value: unknown) => {
 		if (typeof value === 'string') {
 			if (isID(value)) return 'id';
 			if (isEmail(value)) return 'email';
