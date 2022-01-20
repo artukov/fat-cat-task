@@ -1,10 +1,10 @@
-import './App.css';
-import RendererComponent from './RendererComponent'
+import * as React from 'react';
+import RendererComponent from './RendererComponent';
 
 function App() {
-  return (
-    <RendererComponent />
-  );
+	return (
+		<RendererComponent />
+	);
 }
 
 export default App;
