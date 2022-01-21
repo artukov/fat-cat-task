@@ -6,6 +6,8 @@ In the folder generated1000json you can find the file with 1000 JSONs
 
 In the project directory, you can run:
 
+### `yarn install`
+
 ### `yarn start`
 
 Runs the app in the development mode.\
