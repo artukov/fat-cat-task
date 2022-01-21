@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Generated file
+In the folder generated1000json you can find the file with 1000 JSONs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
